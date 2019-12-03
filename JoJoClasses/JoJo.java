@@ -1,5 +1,6 @@
+import java.util.Calendar;
 import java.util.Date;
-
+import java.io.Serializable;
 /**
  * @author Lorenzo Cauli
  * @version 0.1
@@ -20,10 +21,11 @@ import java.util.Date;
  + getStand(): Stand
 
  + toString(): String
- + equals(in oL Object): boolean
+ + equals(in o: Object): boolean
  */
 
-public class JoJo {
+public class JoJo implements Serializable{
+	public static final long serialVersionUID = 1L;
 	public static final long gay = Long.MAX_VALUE;
 	private String name;
 	private Date birthDay;
@@ -49,6 +51,11 @@ public class JoJo {
 			this.name = name;
 			this.birthDay = new Date(birthDay.getTime());
 			this.stand = new Stand(stand);
+		}
+		else {
+			name = "Giovanni GioStella";
+			birthDay = new Date();
+			stand = new Stand();
 		}
 	}
 
@@ -88,7 +95,15 @@ public class JoJo {
 	 * @return Una stringa.
 	 */
 	public String toString() {
-		return "Name: " + name + "\nStand description:\n" + stand.toString() + "Birthday: " + birthDay.toString();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(birthDay);
+		String out = "";
+
+		out += "Name: " + name + "\n";
+		out += "Stand description:\n" + stand.toString();
+		out += "Birthday: " + cal.get(Calendar.DAY_OF_MONTH) + "/" + cal.get(Calendar.MONTH) + "/" + cal.get(Calendar.YEAR);
+
+		return   out;
 	}
 
 	/**

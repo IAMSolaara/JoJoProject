@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * @author Lorenzo Cauli
  * @version 0.1
@@ -6,38 +8,38 @@
 	- name: String
 	- ability: String
 	- battleCry: String
-	- stats: Stat[]
+	- stats: String[]
 
 	+ Stand()
-	+ Stand(in name, ability, battleCry: String , stats: Stat[])
+	+ Stand(in name, ability, battleCry: String , stats: String[])
 	+ Stand(in in: Stand)
 
 	+ getName(): String
 	+ getAbility(): String
 	+ getBattleCry(): String
-	+ getStats(): Stat[]
+	+ getStats(): String[]
 
 	+ cry(): void
-	+ loadStat(in i: int , parameter, level: String): boolean
 
 	+ toString(): String
 	+ equals(in o: Object): boolean
 */
 
-public class Stand {
+public class Stand implements Serializable{
+	public static final long serialVersionUID = 1L;
 	private String name;
 	private String ability;
 	private String battleCry;
-	private Stat[] stats;
+	private String[] stats;
 
 	/**Costruttore di default */
 	public Stand() {
 		name = "Power Cord Extension";
 		ability = "Extend its length.";
 		battleCry = "NHGNHNGH";
-		stats = new Stat[6];
+		stats = new String[6];
 		for (int i = 0; i < stats.length; i++) {
-			stats[i] = new Stat();
+			stats[i] = "E";
 		}
 	}
 
@@ -47,26 +49,26 @@ public class Stand {
 	 * @param battleCry Battle cry del nuovo Stand.
 	 * @param stats Riferimento a vettore di oggetti Stat.
 	 */
-	public Stand(String name, String ability, String battleCry, Stat[] stats) {
-		this.stats = new Stat[6];
+	public Stand(String name, String ability, String battleCry, String[] stats) {
+		this.stats = new String[6];
 		if (name != null && ability != null && battleCry != null && stats != null) {
 			this.name = name;
 			this.ability = ability;
 			this.battleCry = battleCry;
 			if (this.stats.length == stats.length) {
 				for (int i = 0; i < this.stats.length; i++) {
-					this.stats[i] = new Stat(stats[i]);
+					this.stats[i] = stats[i];
 				}
 			} else
-				for (Stat entry : this.stats) {
-					entry = new Stat();
+				for (int i = 0; i < stats.length; i++) {
+					this.stats[i] = "E";
 				}
 		} else {
-			name = "Power Cord Extension";
-			ability = "Extend its length.";
-			battleCry = "NHGNHNGH";
-			for (Stat entry : this.stats) {
-				entry = new Stat();
+			this.name = "Power Cord Extension";
+			this.ability = "Extend its length.";
+			this.battleCry = "NHGNHNGH";
+			for (int i = 0; i < stats.length; i++) {
+				stats[i] = "E";
 			}
 		}
 	}
@@ -76,17 +78,20 @@ public class Stand {
 	 * @param in Riferimento a oggetto Stand.
 	 */
 	public Stand(Stand in) {
-		stats = new Stat[6];
+		stats = new String[6];
 		if (in != null) {
 			name = in.getName();
 			ability = in.getAbility();
 			battleCry = in.getBattleCry();
+			for (int i = 0; i < stats.length; i++) {
+				stats[i] = in.getStats()[i];
+			}
 		} else {
 			name = "Power Cord Extension";
 			ability = "Extend its length.";
 			battleCry = "NHGNHNGH";
-			for (Stat entry : stats) {
-				entry = new Stat();
+			for (int i = 0; i < stats.length; i++) {
+				stats[i] = "E";
 			}
 		}
 	}
@@ -119,10 +124,10 @@ public class Stand {
 	 * Metodo che restituisce le statistiche dello Stand.
 	 * @return Riferimento a un vettore di oggetti Stat.
 	 */
-	public Stat[] getStats() {
-		Stat[] out = new Stat[this.stats.length];
+	public String[] getStats() {
+		String[] out = new String[this.stats.length];
 		for (int i = 0; i < out.length; i++) {
-			out[i] = new Stat(stats[i].getParameter(), stats[i].getLevel());
+			out[i] = stats[i];
 		}
 		return out;
 	}
@@ -135,22 +140,6 @@ public class Stand {
 	}
 
 	/**
-	 * Metodo che carica una statistica dato indice, parametro e livello.
-	 * @param i Indice statistica.
-	 * @param param Parametro statistica.
-	 * @param level Livello parametro statistica.
-	 * @return true se i parametri sono validi, false se non lo sono.
-	 */
-	public boolean loadStat(int i, String param, String level) {
-		boolean out = true;
-		if (i < stats.length && param != null && level != null) {
-			stats[i] = new Stat(param, level);
-		} else
-			out = false;
-		return out;
-	}
-
-	/**
 	 * Metodo che restituisce lo stato dell'oggetto in una stringa.
 	 * @return Una stringa.
 	 */
@@ -159,9 +148,13 @@ public class Stand {
 		String abilityString = "「Ｓｔａｎｄ　ａｂｉｌｉｔｙ：　" + ability + "」\n";
 		String battleCryString = "「Ｓｔａｎｄ　ｃｒｙ：　" + battleCry + "」\n";
 		String statsString = "Stand stats: \n";
-		for (Stat entry : stats) {
-			statsString += entry.toString() + "\n";
-		}
+		statsString += "Power " + stats[0] + "\n";
+		statsString += "Speed " + stats[1] + "\n";
+		statsString += "Range " + stats[2] + "\n";
+		statsString += "Durability " + stats[3] + "\n";
+		statsString += "Precision " + stats[4] + "\n";
+		statsString += "Potential " + stats[5] + "\n";
+		
 		return nameString + abilityString + battleCryString + statsString;
 	}
 
