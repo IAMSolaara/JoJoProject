@@ -2,7 +2,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
 
-public class SaveToFileTest {
+public class SaveJoJoToFile {
     public static void main(String[] args) {
         String filePath = "./objtest.bin";
         Calendar bd = Calendar.getInstance();

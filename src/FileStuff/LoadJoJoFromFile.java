@@ -1,7 +1,7 @@
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 
-public class LoadFromFileTest {
+public class LoadJoJoFromFile {
     public static void main(String[] args) {
         String filePath = "./objtest.bin";
         try {
