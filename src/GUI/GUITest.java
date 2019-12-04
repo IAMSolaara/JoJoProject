@@ -16,10 +16,11 @@ public class GUITest{
         Viewer v = new Viewer();
         v.addJoJo(getJoJoFromFile("./objtest.bin"));
         //v.loadWallPaper("./bg.png");
+        v.setSize(width, height);
+        v.setFont(new Font("Noto",0,20));
         fr.add(v);
 
-        v.setSize(width, height);
-        v.setFont(new Font("Dialog",0,20));
+        
     }
 
     public static JoJo getJoJoFromFile (String filePath) {

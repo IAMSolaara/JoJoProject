@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.*;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import com.ibm.icu.text;
 
 public class Viewer extends Canvas {
 	private JoJo jojo;
@@ -28,6 +29,7 @@ public class Viewer extends Canvas {
 	}
 
 	public void paint(Graphics g) {
+		//Transliterator t = new Transliterator();
 		if (wallpaper != null) g.drawImage(wallpaper, 0, 0,getWidth(), getHeight(), null );
 		if (jojo != null) {
 			int startX = 25;
@@ -44,44 +46,46 @@ public class Viewer extends Canvas {
 			String standNameHeader = "「ＳＴＡＮＤ　ＮＡＭＥ」";
 			String standName = stand.getName();
 
+			Polygon statsPolygon = new Polygon();
+
 			g.drawString(standMasterHeader, startX, startY);
 			g.drawString(standMasterName, startX, startY+fontSize);
 
-			g.drawString(standNameHeader, getWidth(), getHeight());
-			g.drawString(standName, getWidth(), getHeight());
+			g.drawString(standNameHeader, getWidth() - (fontSize * standNameHeader.length()), getHeight() - fontSize * 3);
+			g.drawString(standName, getWidth() - (fontSize * standName.length()), getHeight() - fontSize * 2);
 
 			//draw stats
 			String[] levels = {"E","D","C","B","A"};
-			double[] testCoords = {150,300};
-			int[] testCoordsInt = {(int)Math.floor(testCoords[0]), (int)Math.floor(testCoords[1])};
+			double[] statsOrigin = {150,300};
+			int[] statsOriginInt = {(int)Math.floor(statsOrigin[0]), (int)Math.floor(statsOrigin[1])};
 			double[][] newCoordsArray = new double[6][2];
-			newCoordsArray[0] = testCoords;
+			newCoordsArray[0] = statsOrigin;
 			int circleRadius = (int)Math.floor(getDistFromLevel("A"));
-			int[] circleStart = {testCoordsInt[0] - circleRadius, testCoordsInt[1] - circleRadius};
+			int[] circleStart = {statsOriginInt[0] - circleRadius, statsOriginInt[1] - circleRadius};
 
+			//draw stats outer circle
 			g.drawOval(circleStart[0], circleStart[1], 2 * circleRadius, 2 * circleRadius);
 
+			//draw stats legend
 			for (int i = 0; i < levels.length; i++) {
-				int[] curCords = {};
-				int curHeight = testCoordsInt[1] - (int)Math.floor(getDistFromLevel(levels[i]));
-				g.drawLine(testCoordsInt[0]-4, curHeight, testCoordsInt[0]+4, curHeight);
-				g.drawString(levels[i], testCoordsInt[0]+4, (curHeight + (fontSize/2)));
+				int curHeight = statsOriginInt[1] - (int)Math.floor(getDistFromLevel(levels[i]));
+				g.drawLine(statsOriginInt[0]-4, curHeight, statsOriginInt[0]+4, curHeight);
+				g.drawString(levels[i], statsOriginInt[0]+4, (curHeight + (fontSize/2)));
+			}
+			for (int i = 0; i < 6; i++) {				
+				double curAngle = (60 * i) * Math.PI / 180;
+				g.drawLine(statsOriginInt[0], statsOriginInt[1], (int)Math.floor(calculateCoords(statsOrigin, curAngle, getDistFromLevel("A"))[0]), (int)Math.floor(calculateCoords(statsOrigin, curAngle, getDistFromLevel("A"))[1]));
 			}
 
-			for (int i = 0; i < 6; i++) {
-				
+			for (int i = 0; i < 6; i++) {				
 				double dist = getDistFromLevel(stand.getStats()[i]);
 				double curAngle = (60 * i) * Math.PI / 180;
-				double[] newCoords = calculateCoords(testCoords, curAngle, dist);
-
-				g.drawLine(testCoordsInt[0], testCoordsInt[1], (int)Math.floor(calculateCoords(testCoords, curAngle, getDistFromLevel("A"))[0]), (int)Math.floor(calculateCoords(testCoords, curAngle, getDistFromLevel("A"))[1]));
-				newCoordsArray[i] = newCoords;
+				double[] newCoords = calculateCoords(statsOrigin, curAngle, dist);
+				statsPolygon.addPoint((int)Math.floor(newCoords[0]) , (int)Math.floor(newCoords[1]));
 			}
 			
 			//draw stats polygon
-			int[] xPoints = {(int)Math.floor(newCoordsArray[0][0]), (int)Math.floor(newCoordsArray[1][0]), (int)Math.floor(newCoordsArray[2][0]), (int)Math.floor(newCoordsArray[3][0]), (int)Math.floor(newCoordsArray[4][0]), (int)Math.floor(newCoordsArray[5][0])};
-			int[] yPoints = {(int)Math.floor(newCoordsArray[0][1]), (int)Math.floor(newCoordsArray[1][1]), (int)Math.floor(newCoordsArray[2][1]), (int)Math.floor(newCoordsArray[3][1]), (int)Math.floor(newCoordsArray[4][1]), (int)Math.floor(newCoordsArray[5][1])};
-			g.drawPolygon(xPoints, yPoints, 6);
+			g.drawPolygon(statsPolygon);
 		}
 		else repaint();
 	}
