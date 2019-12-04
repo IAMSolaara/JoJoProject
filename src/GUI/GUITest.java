@@ -5,8 +5,8 @@ import java.io.ObjectInputStream;
 
 public class GUITest{
     public static void main(String[] args) {
-        int width = 800;
-        int height = 600;
+        int width = 640;
+        int height = 480;
         Frame fr = new Frame("JOJOVisualizer by lorecast162");
 
         fr.setSize(width, height);
@@ -19,6 +19,7 @@ public class GUITest{
         fr.add(v);
 
         v.setSize(width, height);
+        v.setFont(new Font("Dialog",0,20));
     }
 
     public static JoJo getJoJoFromFile (String filePath) {

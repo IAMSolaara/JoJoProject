@@ -8,3 +8,5 @@ loaders:
 viewer:
 	javac -d out/JoJoViewer src/Fundamentals/JoJo.java src/Fundamentals/Stand.java
 	javac -d out/JoJoViewer -cp out/JoJo src/GUI/*.java
+runViewer:
+	java -cp out/JoJoViewer GUITest
