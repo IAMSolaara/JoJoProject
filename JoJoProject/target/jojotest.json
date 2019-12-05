@@ -1,0 +1,15 @@
+{
+	"jojoName" : "Riccardo Cao",
+	"jojoBirthDay" : "10/04/2000",
+	"standName" : "True Result",
+	"standAbility" : "Instantly gives ALS to anyone he punches",
+	"battleCry" : "MAAAAAAAANNNN!",
+	"stats" : {
+			"power" : "A",
+			"speed" : "D",
+			"range" : "E",
+			"durability" : "B",
+			"precision" : "C",
+			"potential" : "C"
+	}
+}
