@@ -31,6 +31,20 @@
       <version>20190722</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/com.googlecode.soundlibs/basicplayer -->
+    <dependency>
+      <groupId>com.googlecode.soundlibs</groupId>
+      <artifactId>basicplayer</artifactId>
+      <version>3.0.0.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/javazoom/jlayer -->
+    <dependency>
+      <groupId>javazoom</groupId>
+      <artifactId>jlayer</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>
@@ -85,17 +99,17 @@
                 <goal>single</goal>
               </goals>
             </execution>
-            </executions>
-            <configuration>
-              <descriptorRefs>
-                <descriptorRef>jar-with-dependencies</descriptorRef>
-              </descriptorRefs>
-              <archive>
-                  <manifest>
-                    <mainClass>com.mentalabs.JoJoProject.GUITest</mainClass>
-                  </manifest>
-                </archive>
-            </configuration>
+          </executions>
+          <configuration>
+            <descriptorRefs>
+              <descriptorRef>jar-with-dependencies</descriptorRef>
+            </descriptorRefs>
+            <archive>
+              <manifest>
+                <mainClass>com.mentalabs.JoJoProject.GUITest</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
